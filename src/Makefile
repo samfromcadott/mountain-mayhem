@@ -386,7 +386,7 @@ endif
 PROJECT_SOURCE_FILES ?= *.cc
 
 # Define all object files from source files
-OBJS = $(patsubst %.c, %.o, $(PROJECT_SOURCE_FILES))
+OBJS = $(patsubst %.cc, %.o, $(PROJECT_SOURCE_FILES))
 
 
 # Define processes to execute
@@ -411,7 +411,7 @@ $(PROJECT_NAME): $(OBJS)
 
 # Compile source files
 # NOTE: This pattern will compile every module defined on $(OBJS)
-%.o: %.c
+%.o: %.cc
 	$(CC) -c $< -o $@ $(CFLAGS) $(INCLUDE_PATHS) -D$(PLATFORM)
 
 # Clean everything
