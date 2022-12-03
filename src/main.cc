@@ -1,16 +1,3 @@
-/*******************************************************************************************
-*
-*   raylib 9years gamejam template
-*
-*   Template originally created with raylib 4.5-dev, last time updated with raylib 4.5-dev
-*
-*   Template licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2022 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
-
 #include "raylib.h"
 
 #if defined(PLATFORM_WEB)
@@ -22,11 +9,6 @@
 #include <stdlib.h>                         // Required for: 
 #include <string.h>                         // Required for: 
 
-//----------------------------------------------------------------------------------
-// Defines and Macros
-//----------------------------------------------------------------------------------
-// Simple log system to avoid printf() calls if required
-// NOTE: Avoiding those calls, also avoids const strings memory usage
 #define SUPPORT_LOG_INFO
 #if defined(SUPPORT_LOG_INFO)
     #define LOG(...) printf(__VA_ARGS__)
@@ -34,9 +16,6 @@
     #define LOG(...)
 #endif
 
-//----------------------------------------------------------------------------------
-// Types and Structures Definition
-//----------------------------------------------------------------------------------
 typedef enum { 
     SCREEN_LOGO = 0, 
     SCREEN_TITLE, 
@@ -67,8 +46,7 @@ static void UpdateDrawFrame(void);      // Update and Draw one frame
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
-int main(void)
-{
+int main(void) {
 #if !defined(_DEBUG)
     SetTraceLogLevel(LOG_NONE);         // Disable raylib trace log messsages
 #endif
@@ -91,30 +69,23 @@ int main(void)
     //--------------------------------------------------------------------------------------
 
     // Main game loop
-    while (!WindowShouldClose())    // Detect window close button
-    {
+    while (!WindowShouldClose()) {
         UpdateDrawFrame();
     }
 #endif
 
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
     UnloadRenderTexture(target);
-    
-    // TODO: Unload all loaded resources at this point
-
-    CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
+    CloseWindow();
 
     return 0;
+    
 }
 
 //--------------------------------------------------------------------------------------------
 // Module functions definition
 //--------------------------------------------------------------------------------------------
 // Update and draw frame
-void UpdateDrawFrame(void)
-{
+void UpdateDrawFrame(void) {
     // Update
     //----------------------------------------------------------------------------------
     // Screen scale logic (x2)
@@ -122,8 +93,7 @@ void UpdateDrawFrame(void)
     else if (IsKeyPressed(KEY_TWO)) screenScale = 2;
     else if (IsKeyPressed(KEY_THREE)) screenScale = 3;
     
-    if (screenScale != prevScreenScale)
-    {
+    if (screenScale != prevScreenScale) {
         // Scale window to fit the scaled render texture
         SetWindowSize(screenWidth*screenScale, screenHeight*screenScale);
         
@@ -151,13 +121,16 @@ void UpdateDrawFrame(void)
         ClearBackground(RAYWHITE);
         
         // Draw render texture to screen scaled as required
-        DrawTexturePro(target.texture, (Rectangle){ 0, 0, (float)target.texture.width, -(float)target.texture.height }, (Rectangle){ 0, 0, (float)target.texture.width*screenScale, (float)target.texture.height*screenScale }, (Vector2){ 0, 0 }, 0.0f, WHITE);
-
-        // Draw equivalent mouse position on the target render-texture
+        DrawTexturePro(
+            target.texture,
+            (Rectangle){ 0, 0, (float)target.texture.width, -(float)target.texture.height },
+            (Rectangle){ 0, 0, (float)target.texture.width*screenScale, (float)target.texture.height*screenScale },
+            (Vector2){ 0, 0 },
+            0.0f,
+            WHITE
+        );
+        
         DrawCircleLines(GetMouseX(), GetMouseY(), 10, MAROON);
 
-        // TODO: Draw everything that requires to be drawn at this point:
-
-    EndDrawing();
-    //----------------------------------------------------------------------------------  
+    EndDrawing(); 
 }

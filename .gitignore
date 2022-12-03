@@ -59,5 +59,12 @@ dkms.conf
 *.user
 .vs
 
+# SCons files
+.sconsign.dblite
+
+# Archives
+*.zip
+
 # Build folder
 [Bb]uild
+[Ii]nclude
