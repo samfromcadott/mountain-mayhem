@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "player.hh"
+
 #define SUPPORT_LOG_INFO
 #if defined(SUPPORT_LOG_INFO)
 	#define LOG(...) printf(__VA_ARGS__)
@@ -16,36 +18,35 @@
 	#define LOG(...)
 #endif
 
-typedef enum {
-	SCREEN_LOGO = 0,
-	SCREEN_TITLE,
-	SCREEN_GAMEPLAY,
-	SCREEN_ENDING
-} GameScreen;
-
 static const int screenWidth = 256;
 static const int screenHeight = 256;
 
 static unsigned int screenScale = 3;
-// static unsigned int prevScreenScale = 1;
 
 static RenderTexture2D target = { 0 };
 
-static void UpdateDrawFrame();      // Update and Draw one frame
+static void UpdateDrawFrame(); // Main loop function (needed for web support)
+
+Player player;
 
 int main() {
 #if !defined(_DEBUG)
-	SetTraceLogLevel(LOG_NONE);         // Disable raylib trace log messsages
+	SetTraceLogLevel(LOG_NONE); // Disable raylib trace log messsages
 #endif
 
+	// Initialization
 	InitWindow(screenWidth*screenScale, screenHeight*screenScale, "Mountain Mayhem");
 
 	target = LoadRenderTexture(screenWidth, screenHeight);
 	SetTextureFilter(target.texture, TEXTURE_FILTER_POINT);
 
+	player.position = {100, 0, 100};
+
 #if defined(PLATFORM_WEB)
+	// Main loop for web
 	emscripten_set_main_loop(UpdateDrawFrame, 60, 1);
 #else
+	// Main loop for desktop
 	SetTargetFPS(60);
 
 	while (!WindowShouldClose()) {
@@ -53,6 +54,7 @@ int main() {
 	}
 #endif
 
+	// Unloading
 	UnloadRenderTexture(target);
 	CloseWindow();
 
@@ -61,26 +63,16 @@ int main() {
 }
 
 void UpdateDrawFrame() {
-	// Screen scale logic (x2)
-	// if (IsKeyPressed(KEY_ONE)) screenScale = 1;
-	// else if (IsKeyPressed(KEY_TWO)) screenScale = 2;
-	// else if (IsKeyPressed(KEY_THREE)) screenScale = 3;
-
-	// if (screenScale != prevScreenScale) {
-	// 	// Scale window to fit the scaled render texture
-	// 	SetWindowSize(screenWidth*screenScale, screenHeight*screenScale);
-	//
-	// 	// Scale mouse proportionally to keep input logic inside the 256x256 screen limits
-	// 	SetMouseScale(1.0f/(float)screenScale, 1.0f/(float)screenScale);
-	//
-	// 	prevScreenScale = screenScale;
-	// }-----------------------------------------------------------------------------
-
 	BeginTextureMode(target);
-		ClearBackground(RAYWHITE);
+		// Update
+		player.update();
 
+		// Render
+		ClearBackground(RAYWHITE);
 		DrawRectangle(10, 10, screenWidth - 20, screenHeight - 20, SKYBLUE);
 		DrawLine(32, 32, 128, 96, BLACK);
+
+		player.render();
 
 	EndTextureMode();
 
@@ -97,7 +89,6 @@ void UpdateDrawFrame() {
 			WHITE
 		);
 
-		DrawCircleLines(GetMouseX(), GetMouseY(), 10, MAROON);
-
 	EndDrawing();
+
 }
