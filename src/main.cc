@@ -1,8 +1,8 @@
 #include "raylib.h"
 
 #if defined(PLATFORM_WEB)
-    #define CUSTOM_MODAL_DIALOGS            // Force custom modal dialogs usage
-    #include <emscripten/emscripten.h>      // Emscripten library - LLVM to JavaScript compiler
+	#define CUSTOM_MODAL_DIALOGS            // Force custom modal dialogs usage
+	#include <emscripten/emscripten.h>      // Emscripten library - LLVM to JavaScript compiler
 #endif
 
 #include <stdio.h>                          // Required for: printf()
@@ -11,16 +11,16 @@
 
 #define SUPPORT_LOG_INFO
 #if defined(SUPPORT_LOG_INFO)
-    #define LOG(...) printf(__VA_ARGS__)
+	#define LOG(...) printf(__VA_ARGS__)
 #else
-    #define LOG(...)
+	#define LOG(...)
 #endif
 
 typedef enum { 
-    SCREEN_LOGO = 0, 
-    SCREEN_TITLE, 
-    SCREEN_GAMEPLAY, 
-    SCREEN_ENDING
+	SCREEN_LOGO = 0, 
+	SCREEN_TITLE, 
+	SCREEN_GAMEPLAY, 
+	SCREEN_ENDING
 } GameScreen;
 
 // TODO: Define your custom data types here
@@ -48,37 +48,37 @@ static void UpdateDrawFrame(void);      // Update and Draw one frame
 //------------------------------------------------------------------------------------
 int main(void) {
 #if !defined(_DEBUG)
-    SetTraceLogLevel(LOG_NONE);         // Disable raylib trace log messsages
+	SetTraceLogLevel(LOG_NONE);         // Disable raylib trace log messsages
 #endif
 
-    // Initialization
-    //--------------------------------------------------------------------------------------
-    InitWindow(screenWidth, screenHeight, "raylib 9yr gamejam");
-    
-    // TODO: Load resources / Initialize variables at this point
-    
-    // Render texture to draw full screen, enables screen scaling
-    // NOTE: If screen is scaled, mouse input should be scaled proportionally
-    target = LoadRenderTexture(screenWidth, screenHeight);
-    SetTextureFilter(target.texture, TEXTURE_FILTER_BILINEAR);
+	// Initialization
+	//--------------------------------------------------------------------------------------
+	InitWindow(screenWidth, screenHeight, "raylib 9yr gamejam");
+	
+	// TODO: Load resources / Initialize variables at this point
+	
+	// Render texture to draw full screen, enables screen scaling
+	// NOTE: If screen is scaled, mouse input should be scaled proportionally
+	target = LoadRenderTexture(screenWidth, screenHeight);
+	SetTextureFilter(target.texture, TEXTURE_FILTER_BILINEAR);
 
 #if defined(PLATFORM_WEB)
-    emscripten_set_main_loop(UpdateDrawFrame, 60, 1);
+	emscripten_set_main_loop(UpdateDrawFrame, 60, 1);
 #else
-    SetTargetFPS(60);     // Set our game frames-per-second
-    //--------------------------------------------------------------------------------------
+	SetTargetFPS(60);     // Set our game frames-per-second
+	//--------------------------------------------------------------------------------------
 
-    // Main game loop
-    while (!WindowShouldClose()) {
-        UpdateDrawFrame();
-    }
+	// Main game loop
+	while (!WindowShouldClose()) {
+		UpdateDrawFrame();
+	}
 #endif
 
-    UnloadRenderTexture(target);
-    CloseWindow();
+	UnloadRenderTexture(target);
+	CloseWindow();
 
-    return 0;
-    
+	return 0;
+	
 }
 
 //--------------------------------------------------------------------------------------------
@@ -86,51 +86,51 @@ int main(void) {
 //--------------------------------------------------------------------------------------------
 // Update and draw frame
 void UpdateDrawFrame(void) {
-    // Update
-    //----------------------------------------------------------------------------------
-    // Screen scale logic (x2)
-    if (IsKeyPressed(KEY_ONE)) screenScale = 1;
-    else if (IsKeyPressed(KEY_TWO)) screenScale = 2;
-    else if (IsKeyPressed(KEY_THREE)) screenScale = 3;
-    
-    if (screenScale != prevScreenScale) {
-        // Scale window to fit the scaled render texture
-        SetWindowSize(screenWidth*screenScale, screenHeight*screenScale);
-        
-        // Scale mouse proportionally to keep input logic inside the 256x256 screen limits
-        SetMouseScale(1.0f/(float)screenScale, 1.0f/(float)screenScale);
-        
-        prevScreenScale = screenScale;
-    }
+	// Update
+	//----------------------------------------------------------------------------------
+	// Screen scale logic (x2)
+	if (IsKeyPressed(KEY_ONE)) screenScale = 1;
+	else if (IsKeyPressed(KEY_TWO)) screenScale = 2;
+	else if (IsKeyPressed(KEY_THREE)) screenScale = 3;
+	
+	if (screenScale != prevScreenScale) {
+		// Scale window to fit the scaled render texture
+		SetWindowSize(screenWidth*screenScale, screenHeight*screenScale);
+		
+		// Scale mouse proportionally to keep input logic inside the 256x256 screen limits
+		SetMouseScale(1.0f/(float)screenScale, 1.0f/(float)screenScale);
+		
+		prevScreenScale = screenScale;
+	}
 
-    // TODO: Update variables / Implement example logic at this point
-    //----------------------------------------------------------------------------------
+	// TODO: Update variables / Implement example logic at this point
+	//----------------------------------------------------------------------------------
 
-    // Draw
-    //----------------------------------------------------------------------------------
-    // Render all screen to texture (for scaling)
-    BeginTextureMode(target);
-        ClearBackground(RAYWHITE);
-        
-        // TODO: Draw screen at 256x256
-        DrawRectangle(10, 10, screenWidth - 20, screenHeight - 20, SKYBLUE);
-        
-    EndTextureMode();
-    
-    BeginDrawing();
-        ClearBackground(RAYWHITE);
-        
-        // Draw render texture to screen scaled as required
-        DrawTexturePro(
-            target.texture,
-            (Rectangle){ 0, 0, (float)target.texture.width, -(float)target.texture.height },
-            (Rectangle){ 0, 0, (float)target.texture.width*screenScale, (float)target.texture.height*screenScale },
-            (Vector2){ 0, 0 },
-            0.0f,
-            WHITE
-        );
-        
-        DrawCircleLines(GetMouseX(), GetMouseY(), 10, MAROON);
+	// Draw
+	//----------------------------------------------------------------------------------
+	// Render all screen to texture (for scaling)
+	BeginTextureMode(target);
+		ClearBackground(RAYWHITE);
+		
+		// TODO: Draw screen at 256x256
+		DrawRectangle(10, 10, screenWidth - 20, screenHeight - 20, SKYBLUE);
+		
+	EndTextureMode();
+	
+	BeginDrawing();
+		ClearBackground(RAYWHITE);
+		
+		// Draw render texture to screen scaled as required
+		DrawTexturePro(
+			target.texture,
+			(Rectangle){ 0, 0, (float)target.texture.width, -(float)target.texture.height },
+			(Rectangle){ 0, 0, (float)target.texture.width*screenScale, (float)target.texture.height*screenScale },
+			(Vector2){ 0, 0 },
+			0.0f,
+			WHITE
+		);
+		
+		DrawCircleLines(GetMouseX(), GetMouseY(), 10, MAROON);
 
-    EndDrawing(); 
+	EndDrawing(); 
 }
