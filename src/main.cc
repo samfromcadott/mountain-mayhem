@@ -1,13 +1,13 @@
 #include "raylib.h"
 
 #if defined(PLATFORM_WEB)
-	#define CUSTOM_MODAL_DIALOGS            // Force custom modal dialogs usage
-	#include <emscripten/emscripten.h>      // Emscripten library - LLVM to JavaScript compiler
+	#define CUSTOM_MODAL_DIALOGS
+	#include <emscripten/emscripten.h>
 #endif
 
-#include <stdio.h>                          // Required for: printf()
-#include <stdlib.h>                         // Required for: 
-#include <string.h>                         // Required for: 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define SUPPORT_LOG_INFO
 #if defined(SUPPORT_LOG_INFO)
@@ -16,59 +16,38 @@
 	#define LOG(...)
 #endif
 
-typedef enum { 
-	SCREEN_LOGO = 0, 
-	SCREEN_TITLE, 
-	SCREEN_GAMEPLAY, 
+typedef enum {
+	SCREEN_LOGO = 0,
+	SCREEN_TITLE,
+	SCREEN_GAMEPLAY,
 	SCREEN_ENDING
 } GameScreen;
 
-// TODO: Define your custom data types here
-
-//----------------------------------------------------------------------------------
-// Global Variables Definition
-//----------------------------------------------------------------------------------
 static const int screenWidth = 256;
 static const int screenHeight = 256;
 
-static unsigned int screenScale = 1; 
-static unsigned int prevScreenScale = 1;
+static unsigned int screenScale = 3;
+// static unsigned int prevScreenScale = 1;
 
-static RenderTexture2D target = { 0 };  // Initialized at init
+static RenderTexture2D target = { 0 };
 
-// TODO: Define global variables here, recommended to make them static
+static void UpdateDrawFrame();      // Update and Draw one frame
 
-//----------------------------------------------------------------------------------
-// Module Functions Declaration
-//----------------------------------------------------------------------------------
-static void UpdateDrawFrame(void);      // Update and Draw one frame
-
-//------------------------------------------------------------------------------------
-// Program main entry point
-//------------------------------------------------------------------------------------
-int main(void) {
+int main() {
 #if !defined(_DEBUG)
 	SetTraceLogLevel(LOG_NONE);         // Disable raylib trace log messsages
 #endif
 
-	// Initialization
-	//--------------------------------------------------------------------------------------
-	InitWindow(screenWidth, screenHeight, "raylib 9yr gamejam");
-	
-	// TODO: Load resources / Initialize variables at this point
-	
-	// Render texture to draw full screen, enables screen scaling
-	// NOTE: If screen is scaled, mouse input should be scaled proportionally
+	InitWindow(screenWidth*screenScale, screenHeight*screenScale, "Mountain Mayhem");
+
 	target = LoadRenderTexture(screenWidth, screenHeight);
-	SetTextureFilter(target.texture, TEXTURE_FILTER_BILINEAR);
+	SetTextureFilter(target.texture, TEXTURE_FILTER_POINT);
 
 #if defined(PLATFORM_WEB)
 	emscripten_set_main_loop(UpdateDrawFrame, 60, 1);
 #else
-	SetTargetFPS(60);     // Set our game frames-per-second
-	//--------------------------------------------------------------------------------------
+	SetTargetFPS(60);
 
-	// Main game loop
 	while (!WindowShouldClose()) {
 		UpdateDrawFrame();
 	}
@@ -78,48 +57,36 @@ int main(void) {
 	CloseWindow();
 
 	return 0;
-	
+
 }
 
-//--------------------------------------------------------------------------------------------
-// Module functions definition
-//--------------------------------------------------------------------------------------------
-// Update and draw frame
-void UpdateDrawFrame(void) {
-	// Update
-	//----------------------------------------------------------------------------------
+void UpdateDrawFrame() {
 	// Screen scale logic (x2)
-	if (IsKeyPressed(KEY_ONE)) screenScale = 1;
-	else if (IsKeyPressed(KEY_TWO)) screenScale = 2;
-	else if (IsKeyPressed(KEY_THREE)) screenScale = 3;
-	
-	if (screenScale != prevScreenScale) {
-		// Scale window to fit the scaled render texture
-		SetWindowSize(screenWidth*screenScale, screenHeight*screenScale);
-		
-		// Scale mouse proportionally to keep input logic inside the 256x256 screen limits
-		SetMouseScale(1.0f/(float)screenScale, 1.0f/(float)screenScale);
-		
-		prevScreenScale = screenScale;
-	}
+	// if (IsKeyPressed(KEY_ONE)) screenScale = 1;
+	// else if (IsKeyPressed(KEY_TWO)) screenScale = 2;
+	// else if (IsKeyPressed(KEY_THREE)) screenScale = 3;
 
-	// TODO: Update variables / Implement example logic at this point
-	//----------------------------------------------------------------------------------
+	// if (screenScale != prevScreenScale) {
+	// 	// Scale window to fit the scaled render texture
+	// 	SetWindowSize(screenWidth*screenScale, screenHeight*screenScale);
+	//
+	// 	// Scale mouse proportionally to keep input logic inside the 256x256 screen limits
+	// 	SetMouseScale(1.0f/(float)screenScale, 1.0f/(float)screenScale);
+	//
+	// 	prevScreenScale = screenScale;
+	// }-----------------------------------------------------------------------------
 
-	// Draw
-	//----------------------------------------------------------------------------------
-	// Render all screen to texture (for scaling)
 	BeginTextureMode(target);
 		ClearBackground(RAYWHITE);
-		
-		// TODO: Draw screen at 256x256
+
 		DrawRectangle(10, 10, screenWidth - 20, screenHeight - 20, SKYBLUE);
-		
+		DrawLine(32, 32, 128, 96, BLACK);
+
 	EndTextureMode();
-	
+
 	BeginDrawing();
 		ClearBackground(RAYWHITE);
-		
+
 		// Draw render texture to screen scaled as required
 		DrawTexturePro(
 			target.texture,
@@ -129,8 +96,8 @@ void UpdateDrawFrame(void) {
 			0.0f,
 			WHITE
 		);
-		
+
 		DrawCircleLines(GetMouseX(), GetMouseY(), 10, MAROON);
 
-	EndDrawing(); 
+	EndDrawing();
 }
