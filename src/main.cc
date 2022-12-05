@@ -10,6 +10,7 @@
 #include <string.h>
 
 #include "player.hh"
+#include "hill.hh"
 
 #define SUPPORT_LOG_INFO
 #if defined(SUPPORT_LOG_INFO)
@@ -28,6 +29,7 @@ static RenderTexture2D target = { 0 };
 static void UpdateDrawFrame(); // Main loop function (needed for web support)
 
 Player player;
+Hill hill;
 
 int main() {
 #if !defined(_DEBUG)
@@ -41,6 +43,7 @@ int main() {
 	SetTextureFilter(target.texture, TEXTURE_FILTER_POINT);
 
 	player.position = {100, 0, 100};
+	hill.segments = {Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::DOWN, Slope::FLAT};
 
 #if defined(PLATFORM_WEB)
 	// Main loop for web
@@ -69,10 +72,8 @@ void UpdateDrawFrame() {
 
 		// Render
 		ClearBackground(RAYWHITE);
-		DrawRectangle(10, 10, screenWidth - 20, screenHeight - 20, SKYBLUE);
-		DrawLine(32, 32, 128, 96, BLACK);
-
 		player.render();
+		hill.render();
 
 	EndTextureMode();
 
