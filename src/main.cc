@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "globals.hh"
 #include "player.hh"
 #include "hill.hh"
 
@@ -42,15 +43,17 @@ int main() {
 	target = LoadRenderTexture(screenWidth, screenHeight);
 	SetTextureFilter(target.texture, TEXTURE_FILTER_POINT);
 
-	player.position = {100, 0, 100};
-	hill.segments = {Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::DOWN, Slope::FLAT};
+	player.position = {0, 0, 100};
+	player.visual_position = {0, 100};
+	player.speed = 2.0;
+	hill.segments = {Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::DOWN, Slope::FLAT, Slope::FLAT, Slope::DOWN};
 
 #if defined(PLATFORM_WEB)
 	// Main loop for web
-	emscripten_set_main_loop(UpdateDrawFrame, 60, 1);
+	emscripten_set_main_loop(UpdateDrawFrame, FPS, 1);
 #else
 	// Main loop for desktop
-	SetTargetFPS(60);
+	SetTargetFPS(FPS);
 
 	while (!WindowShouldClose()) {
 		UpdateDrawFrame();
@@ -72,8 +75,8 @@ void UpdateDrawFrame() {
 
 		// Render
 		ClearBackground(RAYWHITE);
-		player.render();
 		hill.render();
+		player.render();
 
 	EndTextureMode();
 
