@@ -15,7 +15,6 @@ void Player::update() {
 	int index = int(position.x / hill.segment_length); // Index of current segment
 	Slope segment = hill.segments[index];
 	float hill_height = hill.get_height(position.x);
-	std::cout << hill_height << '\n';
 
 	Vector3 direction;
 	float acceleration;
