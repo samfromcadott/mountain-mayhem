@@ -28,15 +28,26 @@ void Player::update() {
 		acceleration = -0.1;
 	}
 
+	steer();
+
 	Vector3 velocity = Vector3Scale(direction, speed);
 	position = Vector3Add(position, velocity);
-	// visual_position = Vector2Add(visual_position, {velocity.x, velocity.z});
-	visual_position = {position.x, hill_height+position.y+192};
+
+	visual_position = {position.x, hill_height-position.y+192};
 
 	speed += acceleration; // Modify speed
 
 	// Clamp speed
 	if ( speed < speed_min ) speed = speed_min;
 	if ( speed > speed_max ) speed = speed_max;
+
+}
+
+void Player::steer() {
+	if ( IsKeyDown(KEY_UP) ) position.y += steer_speed;
+	if ( IsKeyDown(KEY_DOWN) ) position.y -= steer_speed;
+
+	if (position.y > hill.road_width) position.y = hill.road_width;
+	if (position.y < 0) position.y = 0;
 
 }
