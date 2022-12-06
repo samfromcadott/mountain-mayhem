@@ -7,7 +7,7 @@
 #include "hill.hh"
 
 void Hill::render() {
-	Vector2 start = {0, 256-64}, end;
+	Vector2 start = {0, 0}, end;
 	Color grass_color, road_color;
 
 	for (auto& segment : segments) {

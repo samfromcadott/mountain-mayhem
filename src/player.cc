@@ -33,7 +33,7 @@ void Player::update() {
 	Vector3 velocity = Vector3Scale(direction, speed);
 	position = Vector3Add(position, velocity);
 
-	visual_position = {position.x, hill_height-position.y+192};
+	visual_position = {position.x, hill_height-position.y};
 
 	speed += acceleration; // Modify speed
 
