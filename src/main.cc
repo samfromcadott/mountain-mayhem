@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <cmath>
 
 #include "globals.hh"
 #include "player.hh"
@@ -31,6 +32,7 @@ static void UpdateDrawFrame(); // Main loop function (needed for web support)
 
 Player player;
 Hill hill;
+Camera2D camera;
 
 int main() {
 #if !defined(_DEBUG)
@@ -50,6 +52,10 @@ int main() {
 	hill.heights = {0, 0, 0, 0, 32, 64, 64, 96};
 	// hill.segments = {Slope::FLAT, Slope::DOWN, Slope::FLAT, Slope::DOWN, Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::FLAT};
 	// hill.heights = {0, 0, 32, 32, 64, 64, 64, 64};
+
+	camera.offset = (Vector2){ 128, -32 };
+	camera.rotation = 0.0;
+	camera.zoom = 1.0;
 
 #if defined(PLATFORM_WEB)
 	// Main loop for web
@@ -72,14 +78,22 @@ int main() {
 }
 
 void UpdateDrawFrame() {
+	// Update
+
+	player.update();
+
+	camera.target.x = std::floor(player.position.x);
+	camera.target.y = hill.get_height(player.position.x);
+
 	BeginTextureMode(target);
-		// Update
-		player.update();
 
 		// Render
 		ClearBackground(RAYWHITE);
-		hill.render();
-		player.render();
+
+		BeginMode2D(camera);
+			hill.render();
+			player.render();
+		EndMode2D();
 
 	EndTextureMode();
 
