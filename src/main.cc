@@ -48,10 +48,10 @@ int main() {
 	player.position = {0, 0, 0};
 	player.visual_position = {64, 128};
 	player.speed = 2.0;
-	hill.segments = {Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::DOWN, Slope::DOWN, Slope::FLAT, Slope::DOWN, Slope::FLAT};
-	hill.heights = {0, 0, 0, 0, 32, 64, 64, 96};
-	// hill.segments = {Slope::FLAT, Slope::DOWN, Slope::FLAT, Slope::DOWN, Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::FLAT};
-	// hill.heights = {0, 0, 32, 32, 64, 64, 64, 64};
+	// hill.segments = {Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::DOWN, Slope::DOWN, Slope::FLAT, Slope::DOWN, Slope::FLAT};
+	// hill.heights = {0, 0, 0, 0, 32, 64, 64, 96};
+	hill.segments = {Slope::FLAT, Slope::DOWN, Slope::FLAT, Slope::DOWN, Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::FLAT,Slope::FLAT, Slope::FLAT};
+	hill.heights = {0, 0, 32, 32, 64, 64, 64, 64, 64, 64, 64, 64};
 
 	camera.offset = (Vector2){ 128, -32 };
 	camera.rotation = 0.0;

@@ -8,14 +8,29 @@
 
 void Hill::render() {
 	Vector2 start = {0, 256-64}, end;
-	for (auto& segment : segments) {
-		if ( segment == Slope::DOWN ) end = Vector2Add(start, {segment_length, segment_length});
-		if ( segment == Slope::FLAT ) end = Vector2Add(start, {segment_length, 0});
+	Color grass_color, road_color;
 
-		DrawLine(start.x, start.y, end.x, end.y, BLACK);
-		DrawLine(start.x, start.y, start.x, start.y-road_width, BLUE);
-		// Vector2 points[] = { start, end, {end.x, end.y-128}, {start.x, start.y-128} };
-		// DrawTriangleFan(points, 4, BROWN);
+	for (auto& segment : segments) {
+		if ( segment == Slope::DOWN ) {
+			end = Vector2Add(start, {segment_length, segment_length});
+			road_color = {116, 70, 0, 255};
+			grass_color = {16, 116, 0, 255};
+		}
+		else if ( segment == Slope::FLAT ) {
+			end = Vector2Add(start, {segment_length, 0});
+			road_color = {175, 105, 0, 255};
+			grass_color = {25, 185, 0, 255};
+		}
+
+
+		Vector2 road_points[] = { start, end, {end.x, end.y-road_width}, {start.x, start.y-road_width} };
+
+		DrawRectangle(start.x, start.y-256, segment_length, 512, grass_color);
+		DrawTriangleFan(road_points, 4, road_color);
+
+		// Segment view for debugging
+		// DrawLine(start.x, start.y, end.x, end.y, BLACK);
+		// DrawLine(start.x, start.y, start.x, start.y-road_width, BLUE);
 
 		start = end;
 
