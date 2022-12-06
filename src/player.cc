@@ -12,7 +12,10 @@ void Player::render() {
 }
 
 void Player::update() {
-	Slope segment = hill.segments[ int(position.x / hill.segment_length) ];
+	int index = int(position.x / hill.segment_length); // Index of current segment
+	Slope segment = hill.segments[index];
+	float hill_height = hill.get_height(position.x);
+	std::cout << hill_height << '\n';
 
 	Vector3 direction;
 	float acceleration;
@@ -28,7 +31,8 @@ void Player::update() {
 
 	Vector3 velocity = Vector3Scale(direction, speed);
 	position = Vector3Add(position, velocity);
-	visual_position = Vector2Add(visual_position, {velocity.x, velocity.z});
+	// visual_position = Vector2Add(visual_position, {velocity.x, velocity.z});
+	visual_position = {position.x, hill_height+position.y+192};
 
 	speed += acceleration; // Modify speed
 

@@ -5,7 +5,7 @@ import shutil
 LIBS=['raylib', 'opengl32', 'gdi32', 'winmm']
 LIBPATH='./lib'
 CCFLAGS='-static --target=x86_64-w64-windows-gnu'
-CXXFLAGS='-static --target=x86_64-w64-windows-gnu -std=c++17'
+CXXFLAGS='-static --target=x86_64-w64-windows-gnu -std=c++20'
 LINKFLAGS = '--target=x86_64-w64-windows-gnu -static-libgcc -static-libstdc++'
 # CCFLAGS='--target=x86_64-w64-windows-gnu'
 # CXXFLAGS='--target=x86_64-w64-windows-gnu -std=c++17'
