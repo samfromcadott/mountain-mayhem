@@ -28,6 +28,7 @@ static unsigned int screenScale = 3;
 
 static RenderTexture2D target = { 0 };
 
+void start_game();
 static void UpdateDrawFrame(); // Main loop function (needed for web support)
 
 Player player;
@@ -45,12 +46,11 @@ int main() {
 	target = LoadRenderTexture(screenWidth, screenHeight);
 	SetTextureFilter(target.texture, TEXTURE_FILTER_POINT);
 
-	player = Player();
-	hill = Hill();
-
 	camera.offset = (Vector2){ 128, 192 };
 	camera.rotation = 0.0;
 	camera.zoom = 1.0;
+
+	start_game();
 
 #if defined(PLATFORM_WEB)
 	// Main loop for web
@@ -72,7 +72,15 @@ int main() {
 
 }
 
+void start_game() {
+	player = Player();
+	hill = Hill();
+
+}
+
 void UpdateDrawFrame() {
+	if ( IsKeyPressed(KEY_R) ) start_game();
+
 	// Update
 	hill.update();
 	player.update();
