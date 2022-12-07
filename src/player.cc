@@ -7,7 +7,7 @@
 #include "player.hh"
 
 Player::Player() {
-	position = {0, 64, 0};
+	position = {128, 64, 0};
 	speed = 2.0;
 
 }

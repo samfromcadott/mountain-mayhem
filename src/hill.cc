@@ -9,13 +9,14 @@
 #include "hill.hh"
 
 Hill::Hill() {
-	segments = {Slope::FLAT, Slope::FLAT, Slope::FLAT};
-	heights = {0, 0, 0};
+	segments = {Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::FLAT};
+	heights = {0, 0, 0, 0, 0, 0};
 
 	// Add segments until the hill is at least 256 pixels long
 	while ( segments.size() * segment_length < 256 ) {
 		add_segments();
 	}
+
 }
 
 void Hill::render() {
