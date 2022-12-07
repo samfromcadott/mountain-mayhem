@@ -6,6 +6,7 @@ enum Slope {DOWN, FLAT};
 
 class Hill {
 private:
+	void add_segments();
 
 public:
 	const float segment_length = 32;

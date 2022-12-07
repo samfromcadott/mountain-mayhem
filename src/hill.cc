@@ -44,8 +44,9 @@ void Hill::update() {
 	// If the last segment is less than 128 pixels from the player generate more segments
 	float hill_length = segments.size() * segment_length;
 	if ( hill_length - 128 <= player.position.x ) {
-		segments.push_back(Slope::FLAT);
-		heights.push_back( heights.back() );
+		// segments.push_back(Slope::FLAT);
+		// heights.push_back( heights.back() );
+		add_segments();
 	}
 }
 
@@ -56,5 +57,24 @@ float Hill::get_height(float x) {
 	// Lerp between the height of this segment and the next one
 	float y = std::lerp(heights[index], heights[index+1], t);
 	return y;
+
+}
+
+void Hill::add_segments() {
+	Slope type = Slope::DOWN; // Type of segment added
+	if ( segments.back() == Slope::DOWN ) type = Slope::FLAT; // Make sure slops aren't repeated
+
+	int length = GetRandomValue(1, 6); // Length of added segments
+
+	for (int i = 0; i < length; i++) {
+		segments.push_back(type);
+
+		float height = heights.back();
+		if ( segments.back() == Slope::DOWN ) // Add height if the last slope was down
+			height += segment_length;
+
+		heights.push_back(height);
+
+	}
 
 }
