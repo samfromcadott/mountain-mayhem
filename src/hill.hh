@@ -9,13 +9,13 @@ private:
 	void add_segments();
 
 public:
-	const float segment_length = 32;
-	const float road_width = 128;
+	constexpr static float segment_length = 32;
+	constexpr static float road_width = 128;
 
 	std::vector<Slope> segments;
 	std::vector<float> heights; // Starting height of each segment
 
-	Hill(){}
+	Hill();
 	virtual ~Hill(){}
 
 	void render();

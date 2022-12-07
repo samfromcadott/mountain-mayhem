@@ -6,6 +6,12 @@
 #include "hill.hh"
 #include "player.hh"
 
+Player::Player() {
+	position = {0, 64, 0};
+	speed = 2.0;
+
+}
+
 void Player::render() {
 	DrawRectangle(visual_position.x - width/2, visual_position.y - height, width, height, RED);
 
