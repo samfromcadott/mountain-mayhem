@@ -78,12 +78,11 @@ void Hill::add_segments() {
 	int length = GetRandomValue(1, 6); // Length of added segments
 
 	for (int i = 0; i < length; i++) {
-		segments.push_back(type);
-
 		float height = heights.back();
 		if ( segments.back() == Slope::DOWN ) // Add height if the last slope was down
 			height += segment_length;
 
+		segments.push_back(type);
 		heights.push_back(height);
 
 	}
