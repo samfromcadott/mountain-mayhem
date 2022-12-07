@@ -31,7 +31,7 @@ void Player::update() {
 	}
 	else if ( segment == Slope::FLAT ) {
 		direction = {1.0, 0.0, 0.0};
-		acceleration = -0.1;
+		acceleration = -0.2;
 	}
 
 	steer();
