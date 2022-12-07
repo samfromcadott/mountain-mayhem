@@ -4,6 +4,8 @@
 #include <raylib.h>
 #include <raymath.h>
 
+#include "globals.hh"
+#include "player.hh"
 #include "hill.hh"
 
 void Hill::render() {
@@ -39,7 +41,12 @@ void Hill::render() {
 }
 
 void Hill::update() {
-
+	// If the last segment is less than 128 pixels from the player generate more segments
+	float hill_length = segments.size() * segment_length;
+	if ( hill_length - 128 <= player.position.x ) {
+		segments.push_back(Slope::FLAT);
+		heights.push_back( heights.back() );
+	}
 }
 
 float Hill::get_height(float x) {

@@ -53,7 +53,7 @@ int main() {
 	hill.segments = {Slope::FLAT, Slope::DOWN, Slope::FLAT, Slope::DOWN, Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::FLAT,Slope::FLAT, Slope::FLAT};
 	hill.heights = {0, 0, 32, 32, 64, 64, 64, 64, 64, 64, 64, 64};
 
-	camera.offset = (Vector2){ 128, 196 };
+	camera.offset = (Vector2){ 128, 192 };
 	camera.rotation = 0.0;
 	camera.zoom = 1.0;
 
@@ -79,7 +79,7 @@ int main() {
 
 void UpdateDrawFrame() {
 	// Update
-
+	hill.update();
 	player.update();
 
 	camera.target.x = std::floor(player.position.x);
