@@ -35,7 +35,6 @@ static void UpdateDrawFrame(); // Main loop function (needed for web support)
 Player player;
 Hill hill;
 Camera2D camera;
-Thing thing;
 std::vector<Thing> thing_list;
 
 int main() {
@@ -54,8 +53,6 @@ int main() {
 	camera.zoom = 1.0;
 
 	start_game();
-
-	thing = Thing({128, 128, 0}, {0, -2, 0}, 32, 32);
 
 #if defined(PLATFORM_WEB)
 	// Main loop for web
@@ -80,6 +77,7 @@ int main() {
 void start_game() {
 	player = Player();
 	hill = Hill();
+	thing_list.clear();
 
 }
 
@@ -89,9 +87,9 @@ void UpdateDrawFrame() {
 	// Update
 	hill.update();
 	player.update();
-	// thing.update();
+
 	for (int i = 0; i < thing_list.size(); i++) {
-		// if ( thing_list[i].position.x < player.position.x - 128 ) thing_list.erase( thing_list.begin()+i );
+		if ( thing_list[i].position.x < player.position.x - 128 ) thing_list.erase( thing_list.begin()+i );
 		thing_list[i].update();
 	}
 
@@ -105,8 +103,7 @@ void UpdateDrawFrame() {
 
 		BeginMode2D(camera);
 			hill.render();
-			// player.render();
-			// thing.render();
+
 			for (int i = 0; i < thing_list.size(); i++) {
 				thing_list[i].render();
 			}
