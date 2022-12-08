@@ -54,10 +54,7 @@ int main() {
 
 	start_game();
 
-	thing.position = {128, 128, 0};
-	thing.width = 32;
-	thing.height = 32;
-	thing.velocity = {0, -2, 0};
+	thing = Thing({128, 128, 0}, {0, -2, 0}, 32, 32);
 
 #if defined(PLATFORM_WEB)
 	// Main loop for web

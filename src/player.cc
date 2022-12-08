@@ -16,7 +16,7 @@ Player::Player() {
 void Player::render() {
 	if (dead) {
 		Color explosion_color = BLACK;
-		const float rate = 4; // Rate explosion color changes
+		const float rate = 8; // Rate explosion color changes
 
 		if ( int( GetTime() * rate ) % 2 == 0 ) explosion_color = WHITE;
 

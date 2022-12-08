@@ -7,7 +7,11 @@
 #include "player.hh"
 #include "thing.hh"
 
-Thing::Thing() {
+Thing::Thing(Vector3 position, Vector3 velocity, int width, int height) {
+	this->position = position;
+	this->velocity = velocity;
+	this->width = width;
+	this->height = height;
 
 }
 
