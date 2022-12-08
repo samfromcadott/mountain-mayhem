@@ -83,14 +83,10 @@ void Hill::add_segments() {
 		if ( segments.back() == Slope::DOWN ) // Add height if the last slope was down
 			height += segment_length;
 
-		// if ( GetRandomValue(0, 10) == 0 ) add_thing( segments.size() + segment_length/2 );
-		// add_thing( segments.size() );
-		// add_thing( 256 );
-
 		segments.push_back(type);
 		heights.push_back(height);
 
-		// add_thing( segments.size() );
+		// Add thing to segment
 		if ( GetRandomValue(0, 5) == 0 && type == Slope::FLAT )
 			add_thing( segments.size()*segment_length - segment_length/2 );
 
