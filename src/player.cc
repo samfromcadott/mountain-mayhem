@@ -9,15 +9,22 @@
 Player::Player() {
 	position = {128, 64, 0};
 	speed = 2.0;
+	dead = false;
 
 }
 
 void Player::render() {
-	DrawRectangle(visual_position.x - width/2, visual_position.y - height, width, height, RED);
+	if (dead) {
+		
+	} else {
+		DrawRectangle(visual_position.x - width/2, visual_position.y - height, width, height, RED);
+	}
 
 }
 
 void Player::update() {
+	if (dead) return;
+
 	int index = int(position.x / hill.segment_length); // Index of current segment
 	Slope segment = hill.segments[index];
 	float hill_height = hill.get_height(position.x);

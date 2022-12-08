@@ -22,7 +22,7 @@ void Thing::update() {
 	position = Vector3Add(position, velocity);
 	visual_position = {position.x, hill_height-position.y};
 
-	if ( collide() ) std::cout << "Collided" << '\n';
+	if ( collide() ) player.dead = true;
 
 }
 
