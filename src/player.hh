@@ -13,6 +13,7 @@ public:
 	Vector3 position;
 	Vector2 visual_position; // Position where the sprite is rendered
 	float speed;
+	bool dead;
 	constexpr static int width = 32, height = 32;
 	constexpr static float steer_speed = 3.0;
 

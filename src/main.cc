@@ -13,6 +13,7 @@
 #include "globals.hh"
 #include "player.hh"
 #include "hill.hh"
+#include "thing.hh"
 
 #define SUPPORT_LOG_INFO
 #if defined(SUPPORT_LOG_INFO)
@@ -34,6 +35,7 @@ static void UpdateDrawFrame(); // Main loop function (needed for web support)
 Player player;
 Hill hill;
 Camera2D camera;
+Thing thing;
 
 int main() {
 #if !defined(_DEBUG)
@@ -51,6 +53,11 @@ int main() {
 	camera.zoom = 1.0;
 
 	start_game();
+
+	thing.position = {128, 128, 0};
+	thing.width = 32;
+	thing.height = 32;
+	thing.velocity = {0, -2, 0};
 
 #if defined(PLATFORM_WEB)
 	// Main loop for web
@@ -84,6 +91,7 @@ void UpdateDrawFrame() {
 	// Update
 	hill.update();
 	player.update();
+	thing.update();
 
 	camera.target.x = std::floor(player.position.x);
 	camera.target.y = hill.get_height(player.position.x);
@@ -96,6 +104,7 @@ void UpdateDrawFrame() {
 		BeginMode2D(camera);
 			hill.render();
 			player.render();
+			thing.render();
 		EndMode2D();
 
 	EndTextureMode();
