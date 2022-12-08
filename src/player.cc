@@ -15,10 +15,18 @@ Player::Player() {
 
 void Player::render() {
 	if (dead) {
-		
-	} else {
-		DrawRectangle(visual_position.x - width/2, visual_position.y - height, width, height, RED);
+		Color explosion_color = BLACK;
+		const float rate = 4; // Rate explosion color changes
+
+		if ( int( GetTime() * rate ) % 2 == 0 ) explosion_color = WHITE;
+
+		DrawCircle(visual_position.x - width/2, visual_position.y - height/2, width/2, explosion_color);
+
+		return;
+
 	}
+
+	DrawRectangle(visual_position.x - width/2, visual_position.y - height, width, height, RED);
 
 }
 
