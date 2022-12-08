@@ -7,6 +7,7 @@
 #include "globals.hh"
 #include "player.hh"
 #include "hill.hh"
+#include "thing.hh"
 
 Hill::Hill() {
 	segments = {Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::FLAT, Slope::FLAT};
@@ -82,9 +83,30 @@ void Hill::add_segments() {
 		if ( segments.back() == Slope::DOWN ) // Add height if the last slope was down
 			height += segment_length;
 
+		// if ( GetRandomValue(0, 10) == 0 ) add_thing( segments.size() + segment_length/2 );
+		// add_thing( segments.size() );
+		// add_thing( 256 );
+
 		segments.push_back(type);
 		heights.push_back(height);
 
+		// add_thing( segments.size() );
+		if ( GetRandomValue(0, 10) == 0 ) add_thing( segments.size()*segment_length + segment_length/2 );
+
 	}
+
+}
+
+void Hill::add_thing(int x) {
+	Vector3 position = {
+		float(x),
+		float( GetRandomValue(0, road_width) ),
+		float( get_height(x) )
+	};
+	Vector3 velocity = {0, 0, 0};
+
+	Thing new_thing(position, velocity, 32, 32);
+
+	thing_list.push_back(new_thing);
 
 }

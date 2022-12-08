@@ -2,11 +2,14 @@
 
 #include <vector>
 
+class Thing;
+
 enum Slope {DOWN, FLAT};
 
 class Hill {
 private:
 	void add_segments();
+	void add_thing(int x);
 
 public:
 	constexpr static float segment_length = 32;

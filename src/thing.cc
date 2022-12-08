@@ -31,7 +31,7 @@ void Thing::update() {
 }
 
 bool Thing::collide() {
-	if (player.position.z != position.z) return false;
+	// if (player.position.z != position.z) return false;
 
 	Rectangle player_rect = {
 		player.visual_position.x - player.width/2,
@@ -40,7 +40,10 @@ bool Thing::collide() {
 		player.height
 	};
 	Rectangle this_rect = {visual_position.x - width/2, visual_position.y - height, float(width), float(height)};
+	Vector2 player_center = Vector2Add( player.visual_position, {player.width/2, player.height/2} );
+	Vector2 this_center = Vector2Add( visual_position, { float(width)/2, float(height)/2 } );
 
-	return CheckCollisionRecs(player_rect, this_rect);
+	// return CheckCollisionRecs(player_rect, this_rect);
+	return CheckCollisionCircles(player_center, player.width/4, this_center, width/4);
 
 }

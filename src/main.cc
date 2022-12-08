@@ -36,6 +36,7 @@ Player player;
 Hill hill;
 Camera2D camera;
 Thing thing;
+std::vector<Thing> thing_list;
 
 int main() {
 #if !defined(_DEBUG)
@@ -88,7 +89,11 @@ void UpdateDrawFrame() {
 	// Update
 	hill.update();
 	player.update();
-	thing.update();
+	// thing.update();
+	for (int i = 0; i < thing_list.size(); i++) {
+		// if ( thing_list[i].position.x < player.position.x - 128 ) thing_list.erase( thing_list.begin()+i );
+		thing_list[i].update();
+	}
 
 	camera.target.x = std::floor(player.position.x);
 	camera.target.y = hill.get_height(player.position.x);
@@ -100,8 +105,13 @@ void UpdateDrawFrame() {
 
 		BeginMode2D(camera);
 			hill.render();
+			// player.render();
+			// thing.render();
+			for (int i = 0; i < thing_list.size(); i++) {
+				thing_list[i].render();
+			}
+
 			player.render();
-			thing.render();
 		EndMode2D();
 
 	EndTextureMode();
