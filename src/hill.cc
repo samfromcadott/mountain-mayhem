@@ -91,7 +91,8 @@ void Hill::add_segments() {
 		heights.push_back(height);
 
 		// add_thing( segments.size() );
-		if ( GetRandomValue(0, 10) == 0 ) add_thing( segments.size()*segment_length + segment_length/2 );
+		if ( GetRandomValue(0, 5) == 0 && type == Slope::FLAT )
+			add_thing( segments.size()*segment_length - segment_length/2 );
 
 	}
 
