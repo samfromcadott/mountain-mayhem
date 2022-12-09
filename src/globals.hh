@@ -1,5 +1,6 @@
 #pragma once
 
+#include <raylib.h>
 #include <vector>
 
 class Hill;
@@ -11,3 +12,6 @@ const int FPS = 60;
 extern Player player;
 extern Hill hill;
 extern std::vector<Thing> thing_list;
+
+// Images
+extern Texture2D rock_sprite;

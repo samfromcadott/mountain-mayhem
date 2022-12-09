@@ -16,7 +16,9 @@ Thing::Thing(Vector3 position, Vector3 velocity, int width, int height) {
 }
 
 void Thing::render() {
-	DrawRectangle(visual_position.x - width/2, visual_position.y - height, width, height, ORANGE);
+	// DrawRectangle(visual_position.x - width/2, visual_position.y - height, width, height, ORANGE);
+	Vector2 sprite_position = {visual_position.x - width/2, visual_position.y - height};
+	DrawTextureRec(rock_sprite, { 0, 0, float(width), float(height) }, sprite_position, WHITE);
 
 }
 

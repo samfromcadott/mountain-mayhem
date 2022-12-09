@@ -37,6 +37,9 @@ Hill hill;
 Camera2D camera;
 std::vector<Thing> thing_list;
 
+// Textures
+Texture2D rock_sprite;
+
 int main() {
 #if !defined(_DEBUG)
 	SetTraceLogLevel(LOG_NONE); // Disable raylib trace log messsages
@@ -51,6 +54,8 @@ int main() {
 	camera.offset = (Vector2){ 96, 192 };
 	camera.rotation = 0.0;
 	camera.zoom = 1.0;
+
+	rock_sprite = LoadTexture("resources/rock.png");
 
 	start_game();
 
