@@ -49,7 +49,7 @@ Music theme;
 
 int main() {
 #if !defined(_DEBUG)
-	// SetTraceLogLevel(LOG_NONE); // Disable raylib trace log messsages
+	SetTraceLogLevel(LOG_NONE); // Disable raylib trace log messsages
 #endif
 
 	// Initialization
