@@ -32,6 +32,7 @@ void Thing::update() {
 	if ( collide()  && !player.dead ) {
 		player.dead = true;
 		PlaySound(explosion_sound);
+		StopMusicStream(theme);
 	}
 
 }

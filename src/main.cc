@@ -43,6 +43,7 @@ Texture2D tree_sprite;
 
 // Audio
 Sound explosion_sound;
+Music theme;
 
 int main() {
 #if !defined(_DEBUG)
@@ -64,6 +65,7 @@ int main() {
 	tree_sprite = LoadTexture("resources/tree.png");
 
 	explosion_sound = LoadSound("resources/explode.wav");
+	theme = LoadMusicStream("resources/theme.mp3");
 
 	start_game();
 
@@ -84,6 +86,9 @@ int main() {
 	UnloadTexture(rock_sprite);
 	UnloadTexture(tree_sprite);
 	UnloadSound(explosion_sound);
+	UnloadMusicStream(theme);
+
+	CloseAudioDevice();
 	CloseWindow();
 
 	return 0;
@@ -95,10 +100,15 @@ void start_game() {
 	hill = Hill();
 	thing_list.clear();
 
+	StopMusicStream(theme);
+	PlayMusicStream(theme);
+
 }
 
 void UpdateDrawFrame() {
 	if ( IsKeyPressed(KEY_R) ) start_game();
+
+	UpdateMusicStream(theme);
 
 	// Update
 	hill.update();

@@ -19,3 +19,4 @@ extern Texture2D tree_sprite;
 
 // Audio
 extern Sound explosion_sound;
+extern Music theme;
