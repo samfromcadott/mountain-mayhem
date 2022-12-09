@@ -16,6 +16,7 @@ extern std::vector<Thing> thing_list;
 // Images
 extern Texture2D rock_sprite;
 extern Texture2D tree_sprite;
+extern Texture2D bigfoot_sprite;
 
 // Audio
 extern Sound explosion_sound;

@@ -40,6 +40,7 @@ std::vector<Thing> thing_list;
 // Textures
 Texture2D rock_sprite;
 Texture2D tree_sprite;
+Texture2D bigfoot_sprite;
 
 // Audio
 Sound explosion_sound;
@@ -63,6 +64,7 @@ int main() {
 
 	rock_sprite = LoadTexture("resources/rock.png");
 	tree_sprite = LoadTexture("resources/tree.png");
+	bigfoot_sprite = LoadTexture("resources/bigfoot.png");
 
 	explosion_sound = LoadSound("resources/explode.wav");
 	theme = LoadMusicStream("resources/theme.mp3");
@@ -85,6 +87,7 @@ int main() {
 	UnloadRenderTexture(target);
 	UnloadTexture(rock_sprite);
 	UnloadTexture(tree_sprite);
+	UnloadTexture(bigfoot_sprite);
 	UnloadSound(explosion_sound);
 	UnloadMusicStream(theme);
 
