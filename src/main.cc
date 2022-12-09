@@ -38,6 +38,7 @@ Camera2D camera;
 std::vector<Thing> thing_list;
 
 // Textures
+Texture2D player_sprite;
 Texture2D rock_sprite;
 Texture2D tree_sprite;
 Texture2D bigfoot_sprite;
@@ -48,7 +49,7 @@ Music theme;
 
 int main() {
 #if !defined(_DEBUG)
-	SetTraceLogLevel(LOG_NONE); // Disable raylib trace log messsages
+	// SetTraceLogLevel(LOG_NONE); // Disable raylib trace log messsages
 #endif
 
 	// Initialization
@@ -62,6 +63,7 @@ int main() {
 	camera.rotation = 0.0;
 	camera.zoom = 1.0;
 
+	player_sprite = LoadTexture("resources/player.png");
 	rock_sprite = LoadTexture("resources/rock.png");
 	tree_sprite = LoadTexture("resources/tree.png");
 	bigfoot_sprite = LoadTexture("resources/bigfoot.png");
@@ -85,6 +87,7 @@ int main() {
 
 	// Unloading
 	UnloadRenderTexture(target);
+	UnloadTexture(player_sprite);
 	UnloadTexture(rock_sprite);
 	UnloadTexture(tree_sprite);
 	UnloadTexture(bigfoot_sprite);

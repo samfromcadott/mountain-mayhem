@@ -14,6 +14,7 @@ extern Hill hill;
 extern std::vector<Thing> thing_list;
 
 // Images
+extern Texture2D player_sprite;
 extern Texture2D rock_sprite;
 extern Texture2D tree_sprite;
 extern Texture2D bigfoot_sprite;

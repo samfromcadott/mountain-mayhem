@@ -1,5 +1,6 @@
 #include <raylib.h>
 #include <raymath.h>
+#include <cmath>
 #include <iostream>
 
 #include "globals.hh"
@@ -26,7 +27,17 @@ void Player::render() {
 
 	}
 
-	DrawRectangle(visual_position.x - width/2, visual_position.y - height, width, height, RED);
+	float offset = 0.0;
+	int index = int(position.x / hill.segment_length); // Index of current segment
+	if ( hill.segments[index] == Slope::DOWN ) offset = 32; // When doing down hill use other sprite
+
+	Vector2 sprite_position = {
+		std::floor(visual_position.x - width/2), // floor prevent jittering
+		std::floor(visual_position.y - height)
+	};
+
+	// DrawRectangle(visual_position.x - width/2, visual_position.y - height, width, height, RED);
+	DrawTextureRec(player_sprite, { offset, 0, float(width), float(height) }, sprite_position, WHITE);
 
 }
 
