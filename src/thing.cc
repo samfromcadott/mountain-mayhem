@@ -7,7 +7,8 @@
 #include "player.hh"
 #include "thing.hh"
 
-Thing::Thing(Vector3 position, Vector3 velocity, int width, int height) {
+Thing::Thing(Texture2D* sprite, Vector3 position, Vector3 velocity, int width, int height) {
+	this->sprite = sprite;
 	this->position = position;
 	this->velocity = velocity;
 	this->width = width;
@@ -18,7 +19,7 @@ Thing::Thing(Vector3 position, Vector3 velocity, int width, int height) {
 void Thing::render() {
 	// DrawRectangle(visual_position.x - width/2, visual_position.y - height, width, height, ORANGE);
 	Vector2 sprite_position = {visual_position.x - width/2, visual_position.y - height};
-	DrawTextureRec(rock_sprite, { 0, 0, float(width), float(height) }, sprite_position, WHITE);
+	DrawTextureRec(*sprite, { 0, 0, float(width), float(height) }, sprite_position, WHITE);
 
 }
 

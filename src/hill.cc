@@ -102,7 +102,7 @@ void Hill::add_thing(int x) {
 	};
 	Vector3 velocity = {0, 0, 0};
 
-	Thing new_thing(position, velocity, 32, 32);
+	Thing new_thing(&rock_sprite, position, velocity, 32, 32);
 
 	thing_list.push_back(new_thing);
 

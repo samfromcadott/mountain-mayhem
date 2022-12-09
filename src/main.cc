@@ -73,6 +73,7 @@ int main() {
 
 	// Unloading
 	UnloadRenderTexture(target);
+	UnloadTexture(rock_sprite);
 	CloseWindow();
 
 	return 0;
