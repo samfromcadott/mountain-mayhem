@@ -41,6 +41,9 @@ std::vector<Thing> thing_list;
 Texture2D rock_sprite;
 Texture2D tree_sprite;
 
+// Audio
+Sound explosion_sound;
+
 int main() {
 #if !defined(_DEBUG)
 	SetTraceLogLevel(LOG_NONE); // Disable raylib trace log messsages
@@ -48,6 +51,7 @@ int main() {
 
 	// Initialization
 	InitWindow(screenWidth*screenScale, screenHeight*screenScale, "Mountain Mayhem");
+	InitAudioDevice();
 
 	target = LoadRenderTexture(screenWidth, screenHeight);
 	SetTextureFilter(target.texture, TEXTURE_FILTER_POINT);
@@ -58,6 +62,8 @@ int main() {
 
 	rock_sprite = LoadTexture("resources/rock.png");
 	tree_sprite = LoadTexture("resources/tree.png");
+
+	explosion_sound = LoadSound("resources/explode.wav");
 
 	start_game();
 
@@ -77,6 +83,7 @@ int main() {
 	UnloadRenderTexture(target);
 	UnloadTexture(rock_sprite);
 	UnloadTexture(tree_sprite);
+	UnloadSound(explosion_sound);
 	CloseWindow();
 
 	return 0;

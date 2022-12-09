@@ -29,7 +29,10 @@ void Thing::update() {
 	position = Vector3Add(position, velocity);
 	visual_position = {position.x, hill_height-position.y};
 
-	if ( collide() ) player.dead = true;
+	if ( collide()  && !player.dead ) {
+		player.dead = true;
+		PlaySound(explosion_sound);
+	}
 
 }
 
