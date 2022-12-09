@@ -39,6 +39,7 @@ std::vector<Thing> thing_list;
 
 // Textures
 Texture2D rock_sprite;
+Texture2D tree_sprite;
 
 int main() {
 #if !defined(_DEBUG)
@@ -56,6 +57,7 @@ int main() {
 	camera.zoom = 1.0;
 
 	rock_sprite = LoadTexture("resources/rock.png");
+	tree_sprite = LoadTexture("resources/tree.png");
 
 	start_game();
 
@@ -74,6 +76,7 @@ int main() {
 	// Unloading
 	UnloadRenderTexture(target);
 	UnloadTexture(rock_sprite);
+	UnloadTexture(tree_sprite);
 	CloseWindow();
 
 	return 0;

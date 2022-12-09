@@ -95,6 +95,7 @@ void Hill::add_segments() {
 }
 
 void Hill::add_thing(int x) {
+	Thing new_thing;
 	Vector3 position = {
 		float(x),
 		float( GetRandomValue(0, road_width) ),
@@ -102,7 +103,17 @@ void Hill::add_thing(int x) {
 	};
 	Vector3 velocity = {0, 0, 0};
 
-	Thing new_thing(&rock_sprite, position, velocity, 32, 32);
+	// Choose what thing is placed
+	int choice = GetRandomValue(1, 20);
+	// Rock
+	if (choice >= 1 && choice <= 12) {
+		new_thing = Thing(&rock_sprite, position, velocity, 32, 32);
+	}
+	// Tree
+	else if (choice >= 13 && choice <= 20) {
+		new_thing = Thing(&tree_sprite, position, velocity, 32, 64);
+	}
+
 
 	thing_list.push_back(new_thing);
 
