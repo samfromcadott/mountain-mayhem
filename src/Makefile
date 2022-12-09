@@ -383,7 +383,7 @@ endif
 
 # Define source code object files required
 #------------------------------------------------------------------------------------------------
-PROJECT_SOURCE_FILES ?= main.cc
+PROJECT_SOURCE_FILES ?= main.cc player.cc thing.cc hill.cc
 
 # Define all object files from source files
 OBJS = $(patsubst %.cc, %.o, $(PROJECT_SOURCE_FILES))
