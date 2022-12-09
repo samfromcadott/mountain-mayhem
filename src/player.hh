@@ -15,7 +15,7 @@ public:
 	float speed;
 	bool dead;
 	constexpr static int width = 32, height = 32;
-	constexpr static float steer_speed = 3.0;
+	constexpr static float steer_speed = 4.0;
 
 	Player();
 	virtual ~Player(){}
