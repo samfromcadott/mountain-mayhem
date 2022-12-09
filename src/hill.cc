@@ -55,7 +55,7 @@ void Hill::render() {
 void Hill::update() {
 	// If the last segment is less than 128 pixels from the player generate more segments
 	float hill_length = segments.size() * segment_length;
-	if ( hill_length - 160 <= player.position.x ) {
+	if ( hill_length - 256 <= player.position.x ) {
 		// segments.push_back(Slope::FLAT);
 		// heights.push_back( heights.back() );
 		add_segments();

@@ -48,7 +48,7 @@ int main() {
 	target = LoadRenderTexture(screenWidth, screenHeight);
 	SetTextureFilter(target.texture, TEXTURE_FILTER_POINT);
 
-	camera.offset = (Vector2){ 128, 192 };
+	camera.offset = (Vector2){ 96, 192 };
 	camera.rotation = 0.0;
 	camera.zoom = 1.0;
 
