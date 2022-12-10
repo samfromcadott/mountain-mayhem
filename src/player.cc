@@ -76,8 +76,8 @@ void Player::update() {
 }
 
 void Player::steer() {
-	if ( IsKeyDown(KEY_UP) ) position.y += steer_speed;
-	if ( IsKeyDown(KEY_DOWN) ) position.y -= steer_speed;
+	if ( IsKeyDown(KEY_UP) || IsKeyDown(KEY_W) ) position.y += steer_speed;
+	if ( IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S) ) position.y -= steer_speed;
 
 	if (position.y > hill.road_width) position.y = hill.road_width;
 	if (position.y < 0) position.y = 0;
