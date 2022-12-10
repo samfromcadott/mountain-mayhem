@@ -17,7 +17,7 @@ jobs:
       PROJECT_NAME: ${{ github.event.repository.name }}
       PROJECT_BUILD_PATH: ${{ github.event.repository.name }}\\src
       PROJECT_RELEASE_PATH: ${{ github.event.repository.name }}_dev_wasm
-      PROJECT_SOURCES: main.cc player.cc hill.cc thing.cc
+      PROJECT_SOURCES: raylib_game.cc
       BUILD_WEB_SHELL: minshell.html
 
     steps:
@@ -58,6 +58,8 @@ jobs:
     - name: Build Product
       run: |
         cd ${{ env.PROJECT_NAME }}/src
+        cat > raylib_game.cc
+        cat thing.cc >> hill.cc >> player.cc >> main.cc >> raylib_game.cc
         make PLATFORM=PLATFORM_WEB BUILD_MODE=RELEASE EMSDK_PATH="D:/a/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}/emsdk-cache/emsdk-main" PROJECT_SOURCE_FILES=${{ env.PROJECT_SOURCES }} PROJECT_BUILD_PATH=. RAYLIB_PATH=../../raylib -B
 
     - name: Generate Artifacts
