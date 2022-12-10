@@ -67,7 +67,7 @@ float Hill::get_height(float x) {
 	float t = (x - index * segment_length) / segment_length; // Proportional distance to next segment
 
 	// Lerp between the height of this segment and the next one
-	float y = std::lerp(heights[index], heights[index+1], t);
+	float y = Lerp(heights[index], heights[index+1], t);
 	return y;
 
 }
