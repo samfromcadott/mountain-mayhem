@@ -143,6 +143,15 @@ void UpdateDrawFrame() {
 			player.render();
 		EndMode2D();
 
+		// Distance counter
+		const int box_offset = 8;
+		const int text_offset = box_offset+2;
+		const int text_size = 8;
+
+		int distance = (player.position.x - 128) / hill.segment_length;
+		DrawRectangle(box_offset, box_offset, 64, 12, WHITE);
+		DrawText(TextFormat("%09im", distance), text_offset, text_offset, text_size, BLACK);
+
 	EndTextureMode();
 
 	BeginDrawing();

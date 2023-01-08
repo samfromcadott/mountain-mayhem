@@ -1,49 +1,3 @@
-#include <raylib.h>
-#include <raymath.h>
-#include <iostream>
-
-#include "globals.hh"
-#include "hill.hh"
-#include "player.hh"
-#include "thing.hh"
-
-Thing::Thing(Texture2D* sprite, Vector3 position, Vector3 velocity, int width, int height) {
-	this->sprite = sprite;
-	this->position = position;
-	this->velocity = velocity;
-	this->width = width;
-	this->height = height;
-
-}
-
-void Thing::render() {
-	// DrawRectangle(visual_position.x - width/2, visual_position.y - height, width, height, ORANGE);
-	Vector2 sprite_position = {visual_position.x - width/2, visual_position.y - height};
-	DrawTextureRec(*sprite, { 0, 0, float(width), float(height) }, sprite_position, WHITE);
-
-}
-
-void Thing::update() {
-	float hill_height = hill.get_height(position.x);
-
-	position = Vector3Add(position, velocity);
-	visual_position = {position.x, hill_height-position.y};
-
-	if ( collide()  && !player.dead ) {
-		player.dead = true;
-		PlaySound(explosion_sound);
-		StopMusicStream(theme);
-	}
-
-}
-
-bool Thing::collide() {
-	Vector2 player_center = Vector2Add( player.visual_position, {player.width/2, player.height/2} );
-	Vector2 this_center = Vector2Add( visual_position, { float(width)/2, float(height)/2 } );
-
-	return CheckCollisionCircles(player_center, player.width/4, this_center, width/4);
-
-}
 #include <vector>
 #include <cmath>
 #include <iostream>
@@ -167,91 +121,6 @@ void Hill::add_thing(int x) {
 
 
 	thing_list.push_back(new_thing);
-
-}
-#include <raylib.h>
-#include <raymath.h>
-#include <cmath>
-#include <iostream>
-
-#include "globals.hh"
-#include "hill.hh"
-#include "player.hh"
-
-Player::Player() {
-	position = {128, 64, 0};
-	speed = 2.0;
-	dead = false;
-
-}
-
-void Player::render() {
-	if (dead) {
-		Color explosion_color = BLACK;
-		const float rate = 8; // Rate explosion color changes
-
-		if ( int( GetTime() * rate ) % 2 == 0 ) explosion_color = WHITE;
-
-		DrawCircle(visual_position.x - width/2, visual_position.y - height/2, width/2, explosion_color);
-
-		return;
-
-	}
-
-	float offset = 0.0;
-	int index = int(position.x / hill.segment_length); // Index of current segment
-	if ( hill.segments[index] == Slope::DOWN ) offset = 32; // When doing down hill use other sprite
-
-	Vector2 sprite_position = {
-		std::floor(visual_position.x - width/2), // floor prevent jittering
-		std::floor(visual_position.y - height)
-	};
-
-	// DrawRectangle(visual_position.x - width/2, visual_position.y - height, width, height, RED);
-	DrawTextureRec(player_sprite, { offset, 0, float(width), float(height) }, sprite_position, WHITE);
-
-}
-
-void Player::update() {
-	if (dead) return;
-
-	int index = int(position.x / hill.segment_length); // Index of current segment
-	Slope segment = hill.segments[index];
-	float hill_height = hill.get_height(position.x);
-
-	Vector3 direction;
-	float acceleration;
-
-	if ( segment == Slope::DOWN ){
-		direction = Vector3Normalize( {1.0, 0.0, 1.0} );
-		acceleration = 0.2;
-	}
-	else if ( segment == Slope::FLAT ) {
-		direction = {1.0, 0.0, 0.0};
-		acceleration = -0.2;
-	}
-
-	steer();
-
-	Vector3 velocity = Vector3Scale(direction, speed);
-	position = Vector3Add(position, velocity);
-
-	visual_position = {position.x, hill_height-position.y};
-
-	speed += acceleration; // Modify speed
-
-	// Clamp speed
-	if ( speed < speed_min ) speed = speed_min;
-	if ( speed > speed_max ) speed = speed_max;
-
-}
-
-void Player::steer() {
-	if ( IsKeyDown(KEY_UP) ) position.y += steer_speed;
-	if ( IsKeyDown(KEY_DOWN) ) position.y -= steer_speed;
-
-	if (position.y > hill.road_width) position.y = hill.road_width;
-	if (position.y < 0) position.y = 0;
 
 }
 #include "raylib.h"
@@ -399,6 +268,15 @@ void UpdateDrawFrame() {
 			player.render();
 		EndMode2D();
 
+		// Distance counter
+		const int box_offset = 8;
+		const int text_offset = box_offset+2;
+		const int text_size = 8;
+
+		int distance = (player.position.x - 128) / hill.segment_length;
+		DrawRectangle(box_offset, box_offset, 64, 12, WHITE);
+		DrawText(TextFormat("%09im", distance), text_offset, text_offset, text_size, BLACK);
+
 	EndTextureMode();
 
 	BeginDrawing();
@@ -415,5 +293,136 @@ void UpdateDrawFrame() {
 		);
 
 	EndDrawing();
+
+}
+#include <raylib.h>
+#include <raymath.h>
+#include <cmath>
+#include <iostream>
+
+#include "globals.hh"
+#include "hill.hh"
+#include "player.hh"
+
+Player::Player() {
+	position = {128, 64, 0};
+	speed = 2.0;
+	dead = false;
+
+}
+
+void Player::render() {
+	if (dead) {
+		Color explosion_color = BLACK;
+		const float rate = 8; // Rate explosion color changes
+
+		if ( int( GetTime() * rate ) % 2 == 0 ) explosion_color = WHITE;
+
+		DrawCircle(visual_position.x - width/2, visual_position.y - height/2, width/2, explosion_color);
+
+		return;
+
+	}
+
+	float offset = 0.0;
+	int index = int(position.x / hill.segment_length); // Index of current segment
+	if ( hill.segments[index] == Slope::DOWN ) offset = 32; // When doing down hill use other sprite
+
+	Vector2 sprite_position = {
+		std::floor(visual_position.x - width/2), // floor prevent jittering
+		std::floor(visual_position.y - height)
+	};
+
+	// DrawRectangle(visual_position.x - width/2, visual_position.y - height, width, height, RED);
+	DrawTextureRec(player_sprite, { offset, 0, float(width), float(height) }, sprite_position, WHITE);
+
+}
+
+void Player::update() {
+	if (dead) return;
+
+	int index = int(position.x / hill.segment_length); // Index of current segment
+	Slope segment = hill.segments[index];
+	float hill_height = hill.get_height(position.x);
+
+	Vector3 direction;
+	float acceleration;
+
+	if ( segment == Slope::DOWN ){
+		direction = Vector3Normalize( {1.0, 0.0, 1.0} );
+		acceleration = 0.2;
+	}
+	else if ( segment == Slope::FLAT ) {
+		direction = {1.0, 0.0, 0.0};
+		acceleration = -0.2;
+	}
+
+	steer();
+
+	Vector3 velocity = Vector3Scale(direction, speed);
+	position = Vector3Add(position, velocity);
+
+	visual_position = {position.x, hill_height-position.y};
+
+	speed += acceleration; // Modify speed
+
+	// Clamp speed
+	if ( speed < speed_min ) speed = speed_min;
+	if ( speed > speed_max ) speed = speed_max;
+
+}
+
+void Player::steer() {
+	if ( IsKeyDown(KEY_UP) ) position.y += steer_speed;
+	if ( IsKeyDown(KEY_DOWN) ) position.y -= steer_speed;
+
+	if (position.y > hill.road_width) position.y = hill.road_width;
+	if (position.y < 0) position.y = 0;
+
+}
+#include <raylib.h>
+#include <raymath.h>
+#include <iostream>
+
+#include "globals.hh"
+#include "hill.hh"
+#include "player.hh"
+#include "thing.hh"
+
+Thing::Thing(Texture2D* sprite, Vector3 position, Vector3 velocity, int width, int height) {
+	this->sprite = sprite;
+	this->position = position;
+	this->velocity = velocity;
+	this->width = width;
+	this->height = height;
+
+}
+
+void Thing::render() {
+	// DrawRectangle(visual_position.x - width/2, visual_position.y - height, width, height, ORANGE);
+	Vector2 sprite_position = {visual_position.x - width/2, visual_position.y - height};
+	DrawTextureRec(*sprite, { 0, 0, float(width), float(height) }, sprite_position, WHITE);
+
+}
+
+void Thing::update() {
+	float hill_height = hill.get_height(position.x);
+
+	position = Vector3Add(position, velocity);
+	visual_position = {position.x, hill_height-position.y};
+
+	if ( collide()  && !player.dead ) {
+		player.dead = true;
+		PlaySound(explosion_sound);
+		StopMusicStream(theme);
+	}
+
+}
+
+bool Thing::collide() {
+	Vector2 player_center = Vector2Add( player.visual_position, {player.width/2, player.height/2} );
+	Vector2 this_center = Vector2Add( visual_position, { float(width)/2, float(height)/2 } );
+
+	return CheckCollisionCircles(player_center, player.width/4, this_center, width/4);
 
 }
